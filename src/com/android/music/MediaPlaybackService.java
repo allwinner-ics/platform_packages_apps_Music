@@ -196,7 +196,9 @@ public class MediaPlaybackService extends Service {
                     break;
                 case TRACK_ENDED:
                     if (mRepeatMode == REPEAT_CURRENT) {
-                        seek(0);
+                    	/* modified by vilan */
+                    	Log.i("MediaPlaybackService.java","**********TRACK_ENDED, reopened the audio ************");
+                    	openCurrent();	// seek(0);
                         play();
                     } else {
                         next(false);
