@@ -35,6 +35,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -1065,6 +1066,30 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
                     // but also if the audio ID is valid but the service is paused.
                     if (mService.getAudioId() >= 0 || mService.isPlaying() ||
                             mService.getPath() != null) {
+                    	
+                    	/* add by chenjd, chenjd@allwinnertech.com
+                         * save currently playing music 
+                         */
+                    	Uri uri = Uri.parse(mService.getPath());
+                    	Cursor c = managedQuery(uri, null, null, null, null);
+                    	String st = null;
+                    	if(c != null)
+                    	{
+                    		while(c.moveToNext())
+                    		{
+                    			st = c.getString(1);
+                    			break;
+                    		}
+                    		c.close();
+                    	}
+                    	if(st != null)
+                    	{
+                           	SharedPreferences pf = getSharedPreferences("current", 0);
+                           	SharedPreferences.Editor editor = pf.edit();
+                           	editor.putString("PlayedMusic", st);
+                           	editor.commit();
+                    	}
+                    	
                         // something is playing now, we're done
                         mRepeatButton.setVisibility(View.VISIBLE);
                         mShuffleButton.setVisibility(View.VISIBLE);
