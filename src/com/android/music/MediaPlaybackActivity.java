@@ -1080,7 +1080,6 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
                     			st = c.getString(1);
                     			break;
                     		}
-                    		c.close();
                     	}
                     	if(st != null)
                     	{
